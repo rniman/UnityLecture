@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 3975630965327622030}
   - component: {fileID: 1129139671086430609}
   - component: {fileID: 1448903846391668035}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &983420666882847520
 Transform:
@@ -117,12 +117,12 @@ GameObject:
   - component: {fileID: 8078446813469241345}
   - component: {fileID: 63976449915675348}
   - component: {fileID: 412434078031360554}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5781389132434767805
 Transform:
@@ -219,12 +219,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6577443958214347441}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Block1x2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6577443958214347441
 Transform:
