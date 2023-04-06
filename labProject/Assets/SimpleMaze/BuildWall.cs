@@ -9,12 +9,16 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i= -10; i < 10; ++i)
+        for(int i= -15; i < 15; ++i)
         {
-            GameObject wallObject = GameObject.Instantiate(wall, new Vector3(i + 0.5f, 0.5f, 10 + 0.5f), Quaternion.identity, transform);
-            wallObject = GameObject.Instantiate(wall, new Vector3(i + 0.5f, 0.5f, -10 - 0.5f), Quaternion.identity, transform);
-            wallObject = GameObject.Instantiate(wall, new Vector3(10 + 0.5f, 0.5f, i + 0.5f), Quaternion.identity, transform);
-            wallObject = GameObject.Instantiate(wall, new Vector3(-10 - 0.5f, 0.5f, i + 0.5f), Quaternion.identity, transform);
+            GameObject wallObject = GameObject.Instantiate(wall, new Vector3(i + 0.5f, 0.5f, 15 + 0.5f), Quaternion.identity, transform);
+            wallObject.isStatic = true;
+            wallObject = GameObject.Instantiate(wall, new Vector3(i + 0.5f, 0.5f, -15 - 0.5f), Quaternion.identity, transform);
+            wallObject.isStatic = true;
+            wallObject = GameObject.Instantiate(wall, new Vector3(15 + 0.5f, 0.5f, i + 0.5f), Quaternion.identity, transform);
+            wallObject.isStatic = true;
+            wallObject = GameObject.Instantiate(wall, new Vector3(-15 - 0.5f, 0.5f, i + 0.5f), Quaternion.identity, transform);
+            wallObject.isStatic = true;
         }
     }
 
