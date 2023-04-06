@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638157058507798235
-    m_Hash: 2035978957
+      ticks: 638147233656377948
+    m_Hash: 1198090127
   m_LockFileStatus:
     m_FilePath: D:/3_1_LECTURE/game_engine(unity)/UnityLecture/labProject/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638157058507798235
-    m_Hash: 2044769956
+      ticks: 638147233897135370
+    m_Hash: 2614829598
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
