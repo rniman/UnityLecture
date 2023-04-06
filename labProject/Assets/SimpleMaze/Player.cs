@@ -11,9 +11,10 @@ public class Player : MonoBehaviour
 
     Camera mainCamera;
 
-    //private GameObject mainCamera;
-    private GameObject initCamera;
+    //private GameObject initCamera;
     public bool sceneCamera = true;
+    private Quaternion initCameraRotation;
+    private Vector3 initCameraPosition;
 
     new Rigidbody rigidbody;
     public bool usePhysics = false;
@@ -28,9 +29,12 @@ public class Player : MonoBehaviour
 
         mainCamera = Camera.main;
 
-        initCamera = new GameObject();
-        initCamera.name = "initCamera";
-        initCamera.transform.SetPositionAndRotation(mainCamera.transform.position, mainCamera.transform.rotation);
+        initCameraRotation = mainCamera.transform.rotation;
+        initCameraPosition = mainCamera.transform.position;
+
+        //initCamera = new GameObject();
+        //initCamera.name = "initCamera";
+        //initCamera.transform.SetPositionAndRotation(mainCamera.transform.position, mainCamera.transform.rotation);
     }
 
     // Update is called once per frame
@@ -82,7 +86,7 @@ public class Player : MonoBehaviour
             sceneCamera = !sceneCamera;
             if (sceneCamera)
             {
-                mainCamera.transform.SetPositionAndRotation(initCamera.transform.position, initCamera.transform.rotation);
+                mainCamera.transform.SetPositionAndRotation(initCameraPosition, initCameraRotation);
                 mainCamera.nearClipPlane = 1.0f;
             }
             else
@@ -103,7 +107,10 @@ public class Player : MonoBehaviour
                 mainCamera.transform.Rotate(Vector3.up * horizontal * turnSpeed * Time.deltaTime);
             }
         }
+    }
 
+    void FixedUpdate()
+    {
         if (!usePhysics && moveDirection != Vector3.zero)
         {
             moveDirection = moveDirection.normalized;
@@ -118,5 +125,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnMouseEnter()
+    {
+        print("Enter");
+    }
 }
 

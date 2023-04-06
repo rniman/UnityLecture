@@ -10,7 +10,7 @@ public class BulletEvent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        wallLayer = LayerMask.NameToLayer("Wall");
     }
 
     // Update is called once per frame
