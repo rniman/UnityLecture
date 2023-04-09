@@ -6,42 +6,50 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2.0f;
-    [SerializeField] private float turnSpeed = 90.0f;
+    private int wallLayer = 10;
 
     public GameObject bullet;
+    private float shootCoolTime = 0.0f;
 
-    Camera mainCamera;
+    private float moveSpeed = 2.0f;
+    private float turnSpeed = 180.0f;
+    private Vector3 moveDirection = Vector3.zero;
 
-    //private GameObject initCamera;
+    private float jumpTime = 0.0f;
+    private float jumpSpeed = 5.0f;
+    private bool jumping;
+    private bool flying;
+
     public bool sceneCamera = true;
+    private Camera mainCamera;
     private Quaternion initCameraRotation;
     private Vector3 initCameraPosition;
 
-    new Rigidbody rigidbody;
+    private Rigidbody rg;
     public bool usePhysics = false;
     public float moveForce = 300.0f;
 
-    Vector3 moveDirection = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = Vector3.zero;
-        rigidbody = GetComponent<Rigidbody>();
+        rg = GetComponent<Rigidbody>();
 
+        flying = false;
+        jumping = false;
         mainCamera = Camera.main;
 
         initCameraRotation = mainCamera.transform.rotation;
         initCameraPosition = mainCamera.transform.position;
-
-        //initCamera = new GameObject();
-        //initCamera.name = "initCamera";
-        //initCamera.transform.SetPositionAndRotation(mainCamera.transform.position, mainCamera.transform.rotation);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(shootCoolTime > 0.0f)
+        {
+            shootCoolTime -= Time.deltaTime;
+        }
+
         moveDirection = Vector3.zero;
         if (Input.GetKey(KeyCode.W)) moveDirection += transform.forward;
         if (Input.GetKey(KeyCode.S)) moveDirection -= transform.forward;
@@ -77,13 +85,15 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Vector3 newBulletPostion = transform.position + transform.forward * 0.7f;
-            newBulletPostion.y += 1.0f;
-            GameObject newBullet = GameObject.Instantiate(bullet, newBulletPostion, transform.rotation);
-            Destroy(newBullet, 5.0f);
+            if (!flying)
+            {
+                flying = true;
+                jumping = true;
+                rg.useGravity = false;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             sceneCamera = !sceneCamera;
             if (sceneCamera)
@@ -98,12 +108,30 @@ public class Player : MonoBehaviour
                 mainCamera.transform.SetPositionAndRotation(cameraOffset, transform.rotation);
                 mainCamera.nearClipPlane = 0.5f;
             }
+
+            if (!sceneCamera)
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            else
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+
         }
 
-        if (!sceneCamera)
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        else
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
+        if (Input.GetMouseButtonDown(0) && shootCoolTime <= 0.0f)
+        {
+            Vector3 newBulletPostion = transform.position + transform.forward * 0.7f;
+            newBulletPostion.y += 1.0f;
+            GameObject newBullet;
+            if (!sceneCamera)
+            {
+                newBullet = GameObject.Instantiate(bullet, newBulletPostion, mainCamera.transform.rotation);
+            }
+            else
+            {
+                newBullet = GameObject.Instantiate(bullet, newBulletPostion, transform.rotation);
+            }
+            Destroy(newBullet, 3.0f);
+            shootCoolTime = 1.0f;
+        }
 
         if (!sceneCamera || Input.GetMouseButton(0)) 
         {
@@ -126,18 +154,36 @@ public class Player : MonoBehaviour
         {
             moveDirection = moveDirection.normalized;
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-            if (!sceneCamera)
+        }
+
+        //float jumpforce = jumpaAceleration * rg.mass;
+        if (jumping)
+        {
+            jumpTime += Time.deltaTime;
+            transform.position += Vector3.up * jumpSpeed * Time.deltaTime;
+            if (jumpTime > 0.3f)
             {
-                Vector3 cameraOffset = transform.position;
-                cameraOffset.y += 1.5f;
-                mainCamera.transform.SetPositionAndRotation(cameraOffset, mainCamera.transform.rotation);
+                rg.useGravity = true;
+                jumpTime = 0.0f;
+                jumping = false;
             }
+        }
+
+        if (!sceneCamera)
+        {
+            Vector3 cameraOffset = transform.position;
+            cameraOffset.y += 1.5f;
+            mainCamera.transform.SetPositionAndRotation(cameraOffset, mainCamera.transform.rotation);
         }
     }
 
-    private void OnMouseEnter()
+    private void OnCollisionEnter(Collision collision)
     {
-        print("Enter");
+        if (collision.gameObject.layer == 9 || collision.gameObject.layer == wallLayer)
+        {
+            if(!jumping)
+                flying = false;
+        }
     }
 }
 

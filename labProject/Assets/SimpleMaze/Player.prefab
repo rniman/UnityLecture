@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6045618962474109398}
   - component: {fileID: 594325766585182918}
   - component: {fileID: 7433799408529168089}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: -4914555276228821828}
   - component: {fileID: 4755350804964004343}
   - component: {fileID: 6326743461079070436}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  turnSpeed: 90
+  turnSpeed: 180
   bullet: {fileID: 7112875581407932331, guid: dd5aa138648251948ba3b8e87640a73f, type: 3}
   sceneCamera: 1
   usePhysics: 0
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 820031853674660387}
   - component: {fileID: 121111320101184815}
   - component: {fileID: 1720136311162295300}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}

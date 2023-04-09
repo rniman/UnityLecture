@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,25 +6,47 @@ using UnityEngine.UIElements;
 
 public class BulletEvent : MonoBehaviour
 {
-    private float speed = 10.0f;
-    private int wallLayer = 10;
+    private static int floorLayer = 9;
+    private static int wallLayer = 10;
+
+    private float speed = 15.0f;
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        wallLayer = LayerMask.NameToLayer("Wall");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+    }
+    private void FixedUpdate()
+    {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.layer == wallLayer)
+
+        if (collision.gameObject.layer == floorLayer)
         {
-            GameObject.Destroy(gameObject);
+            Vector3 reflectVector = Vector3.Reflect(transform.forward, Vector3.up);
+            transform.rotation = Quaternion.FromToRotation(Vector3.forward, reflectVector);
+
+            speed = speed * 0.7f;
+        }
+
+        if (collision.gameObject.layer == wallLayer)
+        {
+            ContactPoint cp = collision.GetContact(0);
+            Vector3 reflectVector = Vector3.Reflect(transform.forward, cp.normal);
+            transform.rotation = Quaternion.FromToRotation(Vector3.forward, reflectVector);
+
+            speed = speed * 0.7f;
+            //GameObject.Destroy(gameObject);
         }
     }
+
 }
